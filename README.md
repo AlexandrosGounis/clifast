@@ -2,23 +2,15 @@
 
 **Turn any function into a CLI. Instantly.**
 
-Export a function. Run one command. Get a published npm CLI.
+Export a function. Run one command. Get a published npm CLI that can be used by LLMs with minimal token consumption compared to MCP.
 
-&nbsp;
-
-<!-- GIF here -->
-
-&nbsp;
+![demo](https://raw.githubusercontent.com/AlexandrosGounis/clifast/main/assets/demo.gif)
 
 ## Try it now
 
-```
+```shell
 npx clifast your-file.ts
-```
-
-Or install globally:
-
-```
+# or install globally
 npm install -g clifast
 ```
 
@@ -27,7 +19,6 @@ npm install -g clifast
 ```
 clifast <file>              # interactive
 clifast <file> -y           # skip prompts, use defaults
-clifast <file> -y -p        # generate + publish in one shot
 ```
 
 ## How it works
@@ -39,34 +30,29 @@ export function add(a: number, b: number) {
 }
 ```
 
-```
-$ clifast math.ts -y
+```shell
+% clifast math.ts -y
 $ npx math 2 3
 5
 ```
 
-Types map directly to CLI behavior:
+This will parse the exported functions and build a `—-help` command that explains what the function does based on the types and comments, if any.
 
-| TypeScript | CLI |
-|---|---|
-| `name: string` | positional arg |
-| `count: number` | auto-coerced to number |
-| `verbose: boolean` | `--verbose` flag |
-| `format?: string` | optional |
-| `level = "info"` | default value |
-| `"a" \| "b"` | validated choices |
-| `async function` | awaited automatically |
+### Rules
 
-Multiple exports become subcommands. JSDoc becomes `--help` text. External imports are auto-bundled.
+- Make sure your file **contains at least one exported function**
+- Multiple exports become subcommands
+- JSDoc comments and proper types are injected in the `--help` command
+- External imports are auto-bundled. You can create a CLI for an entire repository by using a single file as the entrypoint
 
 ## Commands
 
-| Command | Description |
-|---|---|
-| `clifast <file>` | Generate a CLI package from exported functions |
-| `clifast publish [folder]` | Publish to npm (handles 2FA, scoped packages) |
-| `clifast unpublish [folder]` | Unpublish from npm (`--force` for all versions) |
-| `clifast test <folder> [args...]` | Run a generated CLI locally |
+| Command                           | Description                                     |
+| --------------------------------- | ----------------------------------------------- |
+| `clifast <file>`                  | Generate a CLI package from exported functions  |
+| `clifast publish [folder]`        | Publish to npm (handles 2FA, scoped packages)   |
+| `clifast unpublish [folder]`      | Unpublish from npm (`--force` for all versions) |
+| `clifast test <folder> [args...]` | Run a generated CLI locally                     |
 
 ## What it generates
 

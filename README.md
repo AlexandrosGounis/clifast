@@ -1,5 +1,7 @@
 # clifast
 
+[![npm](https://img.shields.io/npm/v/clifast?stye=flat)](https://www.npmjs.com/package/clifast)
+
 **Turn any function into a CLI. Instantly.**
 
 Export a function. Run one command. Get a published npm CLI that can be used by LLMs with minimal token consumption compared to MCP.
